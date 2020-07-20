@@ -85,8 +85,16 @@ function createCard() {
     newCardTextElement.focus()
 
     newCardTextElement.onkeydown = (event) => { event.keyCode === 13 ? addCard() : false }  
-    newCardTextElement.onblur = (event) => { event.target.focus() }
+    newCardTextElement.onblur = (event) => { 
+        if(!newCardTextElement.value) {
+            event.target.parentNode.style.display = ''
+            cardsListTitleElement.style.display = 'block'
 
+            verifyTodos()
+        } else {
+            addCard()
+        }
+    }
 }
 
 function addCard() {
@@ -98,6 +106,7 @@ function addCard() {
     
     if(!cardName) {
         messageBox('Insira um nome para o cartão.', 'add-card')
+        
     } else {
         for(let item of Object.keys(todos)) {
 
@@ -106,7 +115,6 @@ function addCard() {
             }
         }
     }
-    
     todos[cardName] = { title: cardName, items: [], done: []}
 
     newCardTextElement.value = ''
@@ -121,11 +129,9 @@ function addCard() {
 
 function showCardItems(element) {
     let cardName = element.value
-    let card = todos[cardName]
     
-    renderCardList()
-    renderCardItems(card)
     activeCard(element.parentNode)
+    renderCardItems(todos[cardName])
 }
 
 function removeCard(element) {
@@ -139,7 +145,6 @@ function removeCard(element) {
 
 function editCardName(element) {
 
-    disableCards()
     activeCard(element.parentNode)
     
     element.removeAttribute('onclick', 'editCardName(this)')
@@ -205,7 +210,7 @@ function disableCards() {
 // Card items
 function renderCardItems(cardList) {
 
-    let cardsListElement = document.querySelector('#cards-list')
+    var cardsListElement = document.querySelector('#cards-list')
     let cardTitleElement = document.querySelector('#card-title')
     let cardListItemsElement = document.querySelector('#items-list')
 
@@ -217,17 +222,7 @@ function renderCardItems(cardList) {
     if(!todosSize) {
         cardsListElement.innerText = 'Você ainda não possui cartões'
         cardListItemsElement.innerText = ''
-    } else {
-        cardsListElement.childNodes.forEach(e => {
-            for(item of Object.keys(todos)) {
-                if(e.childNodes[0].value === item){
-                    activeCard(e)
-                }
-            }
-        })
-    }   
-
-    if(!cardList && !todosSize) {
+    } else if(!cardList && !todosSize) {
         cardTitleElement.innerText = ''
         return
     } else if (!cardList && todosSize){              
@@ -387,8 +382,8 @@ function messageBox(element, action) {
     var box = document.querySelector('#alerts')
     var options = document.querySelector('#options')
     var message = document.querySelector('#message > p')
-    var cancel = document.querySelector('#decline')
-    var confirm = document.querySelector('#agree')
+    let cancel = document.querySelector('#decline')
+    let confirm = document.querySelector('#agree')
     
     
     box.style.display = 'flex'
@@ -409,6 +404,8 @@ function messageBox(element, action) {
         }
 
     } else if(action === 'remove-card') {
+        activeCard(element.parentNode)
+
         message.innerText = 'Confirma a exclusão do cartão?'
         cancel.style.display = 'flex'
         confirm.style.display = 'flex'
