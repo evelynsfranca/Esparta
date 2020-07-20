@@ -1,0 +1,54 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>To Do List</h1>
+    </header>
+    <section>
+        <article id="cards-space">
+            <header id="add-card">
+                <span>Adicionar Cartão</span>
+                <button class="fa fa-plus"></button>                
+            </header>
+            <div id="create-card-space">
+                <input type="text" id="new-card-text">
+                <button id="add-new-card">Adicionar cartão</button>
+            </div>            
+            <h3 id="title">Meus Cartões</h3>
+            <ul id="cards-list">
+            </ul>
+        </article>
+        <article id="items-space">
+            <header>
+                <h2 id="card-title">Card Name</h2>
+            </header>
+            <ul id="items-list">
+            </ul>
+            <footer>
+                <input type="text" id="new-item-text">
+                <button id="new-item-add">Adicionar</button>
+            </footer>
+        </article>
+    </section>
+    <section id="alerts">
+        <div id="message-box">
+            <div id="message">
+                <button id="close" class="fa fa-times"></button>
+                <p></p>
+                <div id="options">
+                    <button class="fa fa-times" id="decline"></button>
+                    <button class="fa fa-check" id="agree"></button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
